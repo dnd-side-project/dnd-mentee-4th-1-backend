@@ -2,8 +2,8 @@ package org.dnd4.yorijori.domain.recipe.controller;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
+import org.dnd4.yorijori.domain.common.ResultList;
 import org.dnd4.yorijori.domain.monthly_label.service.MonthlyLabelService;
 import org.dnd4.yorijori.domain.monthly_view.service.MonthlyViewService;
 import org.dnd4.yorijori.domain.recipe.dto.ResponseDto;
@@ -23,7 +23,7 @@ public class RecipeListController {
 	private final MonthlyLabelService monthlyLabelService;
 	
 	@GetMapping("/recipes")
-	public List<ResponseDto> recipeList(@RequestParam(required = false) String queryType,
+	public ResultList<ResponseDto> recipeList(@RequestParam(required = false) String queryType,
 			@RequestParam(required = false) String step, @RequestParam(required = false) String time,
 			@RequestParam(required = false) String startDate, @RequestParam(required = false) String endDate,
 			@RequestParam(required = false) String order, @RequestParam(required = false) String keyword,
@@ -38,13 +38,13 @@ public class RecipeListController {
 			end = LocalDateTime.parse(endDate + " 23:59:59", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		}
 		if (queryType.equals("search")) {
-			return recipeListService.findAll(step, time, start, end, order, keyword, limit, offset);
+			return new ResultList<ResponseDto>(recipeListService.findAll(step, time, start, end, order, keyword, limit, offset));
 		}
 		if (queryType.equals("viewTop")) {
-			return monthlyViewService.rank(limit);
+			return new ResultList<ResponseDto>(monthlyViewService.rank(limit));
 		}
 		if (queryType.equals("labelTop")) {
-			return monthlyViewService.rank(limit);
+			return new ResultList<ResponseDto>(monthlyViewService.rank(limit));
 		}
 		return null;
 	}
