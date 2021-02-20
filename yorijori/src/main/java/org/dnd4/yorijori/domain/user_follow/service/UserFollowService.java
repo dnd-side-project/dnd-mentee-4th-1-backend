@@ -24,13 +24,13 @@ public class UserFollowService {
 	private final UserRepository userRepository;
 
 	public List<UserDto> followingList(User user) {
-		List<UserDto> result = userFollowRepository.findfollowingByfollower(user).stream()
+		List<UserDto> result = userFollowRepository.findFollowingByFollower(user).stream()
 				.map(UserDto::new).collect(Collectors.toList());
 		return result;
 	}
 	
 	public List<UserDto> followerList(User user) {
-		return userFollowRepository.findfollewerByfollowing(user).stream()
+		return userFollowRepository.findFollewerByFollowing(user).stream()
 				.map(UserDto::new).collect(Collectors.toList());
 	}
 	
