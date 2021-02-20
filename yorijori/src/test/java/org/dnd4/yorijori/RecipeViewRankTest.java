@@ -12,7 +12,6 @@ import org.dnd4.yorijori.domain.monthly_view.service.MonthlyViewService;
 import org.dnd4.yorijori.domain.recipe.dto.IngredientDto;
 import org.dnd4.yorijori.domain.recipe.dto.RequestDto;
 import org.dnd4.yorijori.domain.recipe.dto.ResponseDto;
-import org.dnd4.yorijori.domain.recipe.entity.Recipe;
 import org.dnd4.yorijori.domain.recipe.repository.RecipeRepository;
 import org.dnd4.yorijori.domain.recipe.service.RecipeListService;
 import org.dnd4.yorijori.domain.recipe.service.RecipeService;

@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.dnd4.yorijori.Security.JwtTokenProvider;
+import org.dnd4.yorijori.domain.common.Result;
 import org.dnd4.yorijori.domain.user.entity.User;
 import org.dnd4.yorijori.domain.user.repository.UserRepository;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,18 +21,18 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/join")
-    public Long join(@RequestBody Map<String, String> user) {
-        return userRepository.save(User.builder()
+    public Result<Long> join(@RequestBody Map<String, String> user) {
+        return new Result<Long>(userRepository.save(User.builder()
         		.name(user.get("name"))
                 .email(user.get("email"))
                 .roles(Collections.singletonList("ROLE_USER"))
-                .build()).getId();
+                .build()).getId());
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> user) {
+    public Result<String> login(@RequestBody Map<String, String> user) {
         User member = userRepository.findByEmail(user.get("email"))
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 E-MAIL 입니다."));
-        return jwtTokenProvider.createToken(member);
+        return new Result<String>(jwtTokenProvider.createToken(member));
     }
 }

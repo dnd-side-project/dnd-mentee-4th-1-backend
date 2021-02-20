@@ -1,19 +1,17 @@
 package org.dnd4.yorijori.domain.user_follow.entity;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.dnd4.yorijori.domain.common.YesOrNo;
 import org.dnd4.yorijori.domain.user.entity.User;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
@@ -35,14 +33,25 @@ public class UserFollow {
 
 	private YesOrNo followingAlarm;
 	private YesOrNo followerAlarm;
-}
 
-@SuppressWarnings("serial")
-@Embeddable
-class FollowKey implements Serializable {
-	@Column(name = "following_id")
-	Long followingId;
-
-	@Column(name = "follower_id")
-	Long followerId;
+	@Builder
+	public UserFollow(User following, User follower) {
+		this.following = following;
+		this.follower = follower;
+		this.followingAlarm = YesOrNo.Y;
+		this.followerAlarm = YesOrNo.Y;
+	}
+	
+	public void followingAlarmOn() {
+		this.followingAlarm = YesOrNo.Y;
+	}
+	public void followingAlarmOff() {
+		this.followingAlarm = YesOrNo.N;
+	}
+	public void followerAlarmOn() {
+		this.followerAlarm = YesOrNo.Y;
+	}
+	public void followerAlarmOff() {
+		this.followerAlarm = YesOrNo.N;
+	}
 }
