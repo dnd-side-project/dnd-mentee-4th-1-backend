@@ -1,17 +1,19 @@
 package org.dnd4.yorijori.domain.user_follow.repository;
 
 import static org.dnd4.yorijori.domain.recipe.entity.QRecipe.recipe;
+import static org.dnd4.yorijori.domain.user_follow.entity.QUserFollow.userFollow;
 
 import java.util.List;
 
 import org.dnd4.yorijori.domain.common.YesOrNo;
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
-import static org.dnd4.yorijori.domain.user_follow.entity.QUserFollow.userFollow;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.stereotype.Repository;
 
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
+@Repository
 public class UserFollowDslRepository extends QuerydslRepositorySupport {
 
 	private final JPAQueryFactory queryFactory;
