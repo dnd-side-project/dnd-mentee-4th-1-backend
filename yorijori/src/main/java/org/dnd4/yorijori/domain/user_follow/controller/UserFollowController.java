@@ -1,6 +1,7 @@
 package org.dnd4.yorijori.domain.user_follow.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.dnd4.yorijori.domain.recipe.dto.ResponseDto;
 import org.dnd4.yorijori.domain.recipe.dto.UserDto;
@@ -37,12 +38,12 @@ public class UserFollowController {
 		return userFollowService.followingList(user);
 	}
 
-	@PostMapping("/user/{followingId}/follow/{followerId}")
+	@PostMapping("user/{followerId}/follow/{followingId}")
 	public void follow(@PathVariable Long followingId, @PathVariable Long followerId) {
 		userFollowService.follow(followingId, followerId);
 	}
 
-	@DeleteMapping("/user/{followingId}/follow/{followerId}")
+	@DeleteMapping("/user/{followerId}/follow/{followingId}")
 	public void unfollow(@PathVariable Long followingId, @PathVariable Long followerId) {
 		userFollowService.unfollow(followingId, followerId);
 	}
