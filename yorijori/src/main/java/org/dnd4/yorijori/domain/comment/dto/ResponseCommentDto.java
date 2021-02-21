@@ -21,6 +21,10 @@ public class ResponseCommentDto extends BaseTimeEntity {
 
         User user = comment.getUser();
         this.writer = new UserDto(user.getId(), user.getName(), user.getEmail());
+
         if(comment.getParent() != null) this.pid = comment.getParent().getId();
+
+        this.setCreatedDate(comment.getCreatedDate());
+        this.setModifiedDate(comment.getModifiedDate());
     }
 }
