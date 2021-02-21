@@ -3,6 +3,7 @@ package org.dnd4.yorijori.domain.comment.controller;
 import lombok.RequiredArgsConstructor;
 import org.dnd4.yorijori.domain.comment.dto.RequestCommentDto;
 import org.dnd4.yorijori.domain.comment.dto.ResponseCommentDto;
+import org.dnd4.yorijori.domain.comment.dto.UpdateCommentDto;
 import org.dnd4.yorijori.domain.comment.entity.Comment;
 import org.dnd4.yorijori.domain.comment.service.CommentService;
 import org.dnd4.yorijori.domain.common.Result;
@@ -23,12 +24,12 @@ public class CommentController {
         Comment comment = commentService.get(id);
         return new Result<ResponseCommentDto>(new ResponseCommentDto(comment));
     }
-//
-//    @PutMapping("/{id}")
-//    public Result<ResponseDto> update (@PathVariable Long id, @RequestBody @Validated UpdateRequestDto reqDto){
-//
-//
-//    }
+
+    @PutMapping("/{id}")
+    public Result<Long> update (@PathVariable Long id, @RequestBody @Validated UpdateCommentDto commentDto){
+        Long updateId = commentService.update(id, commentDto);
+        return new Result<Long>(updateId);
+    }
 
     @PostMapping("")
     public Result<ResponseCommentDto> add(@RequestBody @Validated RequestCommentDto commentDto){

@@ -51,4 +51,9 @@ public class Comment extends BaseTimeEntity {
 		this.recipe = recipe;
 	}
 
+	public void update(String content, String imageUrl){
+		this.content = content;
+		this.imageUrl = imageUrl;
+	}
+
 }

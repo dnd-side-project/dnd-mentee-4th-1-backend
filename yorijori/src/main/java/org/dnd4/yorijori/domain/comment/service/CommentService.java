@@ -3,6 +3,7 @@ package org.dnd4.yorijori.domain.comment.service;
 import lombok.RequiredArgsConstructor;
 import org.dnd4.yorijori.domain.comment.dto.RequestCommentDto;
 import org.dnd4.yorijori.domain.comment.dto.ResponseCommentDto;
+import org.dnd4.yorijori.domain.comment.dto.UpdateCommentDto;
 import org.dnd4.yorijori.domain.comment.entity.Comment;
 import org.dnd4.yorijori.domain.comment.repository.CommentRepository;
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
@@ -55,5 +56,12 @@ public class CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 아이디의 댓글이 없습니다. id : " + id));
 
         return comment;
+    }
+
+    @Transactional
+    public Long update(Long id, UpdateCommentDto updateCommentDto){
+        Comment comment = commentRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 아이디의 댓글이 없습니다. id : " + id));
+        comment.update(updateCommentDto.getContent(), updateCommentDto.getImageUrl());
+        return id;
     }
 }
