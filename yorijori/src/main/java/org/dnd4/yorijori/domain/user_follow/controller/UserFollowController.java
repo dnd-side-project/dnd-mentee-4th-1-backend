@@ -1,8 +1,8 @@
 package org.dnd4.yorijori.domain.user_follow.controller;
 
 import java.util.List;
-import java.util.Map;
 
+import org.dnd4.yorijori.domain.common.ResultList;
 import org.dnd4.yorijori.domain.recipe.dto.ResponseDto;
 import org.dnd4.yorijori.domain.recipe.dto.UserDto;
 import org.dnd4.yorijori.domain.user.entity.User;
@@ -25,21 +25,21 @@ public class UserFollowController {
 	private final UserRepository userRepository;
 
 	@GetMapping("/user/{userId}/followers")
-	public List<UserDto> followerList(@PathVariable Long userId,
+	public ResultList<UserDto> followerList(@PathVariable Long userId,
 			@RequestParam(required = false, defaultValue = "10") int limit,
 			@RequestParam(required = false, defaultValue = "0") int offset) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
-		return userFollowService.followerList(user, limit, offset);
+		return new ResultList<UserDto> (userFollowService.followerList(user, limit, offset));
 	}
 
 	@GetMapping("/user/{userId}/followings")
-	public List<UserDto> followingList(@PathVariable Long userId,
+	public ResultList<UserDto> followingList(@PathVariable Long userId,
 			@RequestParam(required = false, defaultValue = "10") int limit,
 			@RequestParam(required = false, defaultValue = "0") int offset) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
-		return userFollowService.followingList(user, limit, offset);
+		return new ResultList<UserDto> (userFollowService.followingList(user, limit, offset));
 	}
 
 	@PostMapping("user/{followerId}/follow/{followingId}")
@@ -73,19 +73,19 @@ public class UserFollowController {
 	}
 	
 	@GetMapping("/user/{userId}/followerFeeds")
-	public List<ResponseDto> followerFeed(@PathVariable Long userId,
+	public ResultList<ResponseDto> followerFeed(@PathVariable Long userId,
 			@RequestParam(required = false, defaultValue = "10") int limit,
 			@RequestParam(required = false, defaultValue = "0") int offset) {
 		List<ResponseDto> result = userFollowService.followerFeed(userId, limit, offset);
-		return result;
+		return new ResultList<ResponseDto>(result);
 	}
 
 	@GetMapping("/user/{userId}/followingFeeds")
-	public List<ResponseDto> followingFeed(@PathVariable Long userId,
+	public ResultList<ResponseDto> followingFeed(@PathVariable Long userId,
 			@RequestParam(required = false, defaultValue = "10") int limit,
 			@RequestParam(required = false, defaultValue = "0") int offset) {
 		List<ResponseDto> result = userFollowService.followingFeed(userId, limit, offset);
-		return result;
+		return new ResultList<ResponseDto>(result);
 	}
 
 }
