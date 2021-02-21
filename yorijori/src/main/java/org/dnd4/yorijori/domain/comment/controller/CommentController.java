@@ -18,7 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
     private final CommentService commentService;
 
-//    @GetMapping("/{id}")
+    @GetMapping("/{id}")
+    public Result<ResponseCommentDto> get(@PathVariable Long id){
+        Comment comment = commentService.get(id);
+        return new Result<ResponseCommentDto>(new ResponseCommentDto(comment));
+    }
 //
 //    @PutMapping("/{id}")
 //    public Result<ResponseDto> update (@PathVariable Long id, @RequestBody @Validated UpdateRequestDto reqDto){
