@@ -10,6 +10,7 @@ import org.dnd4.yorijori.domain.user.repository.UserRepository;
 import org.dnd4.yorijori.domain.user_follow.entity.UserFollow;
 import org.dnd4.yorijori.domain.user_follow.repository.UserFollowDslRepository;
 import org.dnd4.yorijori.domain.user_follow.repository.UserFollowRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
