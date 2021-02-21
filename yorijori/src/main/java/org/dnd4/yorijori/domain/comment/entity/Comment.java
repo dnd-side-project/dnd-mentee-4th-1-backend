@@ -33,7 +33,7 @@ public class Comment extends BaseTimeEntity {
 	private Recipe recipe;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="pid")
+	@JoinColumn(name="parent_id")
 	private Comment parent;
 
 	@OneToMany(mappedBy = "parent")

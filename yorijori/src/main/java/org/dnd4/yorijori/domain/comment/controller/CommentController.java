@@ -13,11 +13,24 @@ import org.dnd4.yorijori.domain.recipe.dto.UpdateRequestDto;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/comments")
 public class CommentController {
     private final CommentService commentService;
+
+    @GetMapping("")
+    public ResultList<ResponseCommentDto> getByParentId(
+            @RequestParam(required = true) Long pid,
+            @RequestParam(required = false, defaultValue = "10") int limit,
+            @RequestParam(required = false, defaultValue = "0") int offset){
+
+        List<Comment> comments = commentService.getByParentId(pid,offset, limit);
+        return new ResultList<ResponseCommentDto>(comments.stream().map(c->new ResponseCommentDto(c)).collect(Collectors.toList()));
+    }
 
     @GetMapping("/{id}")
     public Result<ResponseCommentDto> get(@PathVariable Long id){
@@ -39,8 +52,11 @@ public class CommentController {
         return new Result<ResponseCommentDto>(new ResponseCommentDto(comment));
 
     }
-//
-//    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
+    public Result<Boolean> delete(@PathVariable Long id){
+        commentService.delete(id);
+        return new Result<Boolean>(true);
+    }
 
 
 }
