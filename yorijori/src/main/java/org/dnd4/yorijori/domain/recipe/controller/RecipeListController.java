@@ -44,7 +44,7 @@ public class RecipeListController {
 			return new ResultList<ResponseDto>(monthlyViewService.rank(limit));
 		}
 		if (queryType.equals("labelTop")) {
-			return new ResultList<ResponseDto>(monthlyViewService.rank(limit));
+			return new ResultList<ResponseDto>(monthlyLabelService.rank(limit));
 		}
 		return null;
 	}

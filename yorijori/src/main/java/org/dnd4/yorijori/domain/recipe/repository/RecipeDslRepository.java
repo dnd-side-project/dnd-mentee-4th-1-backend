@@ -29,22 +29,6 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 		this.queryFactory = queryFactory;
 	}
 
-	public List<Recipe> labelTop(LocalDateTime start, LocalDateTime end, int limit, int offset) {
-		List<Recipe> list =  queryFactory.select(recipe)
-				.from(label)
-				.join(recipe).on(recipe.id.eq(label.recipe.id))
-				.where(
-						goeStartLabel(start), 
-						loeEndLabel(end)
-						)
-				.groupBy(label.recipe.id)
-				.orderBy(label.recipe.id.count().desc())
-				.limit(limit)
-				.offset(offset)
-				.fetch();
-		return list;
-	}
-
 	public List<Recipe> findAll(String step, String time, LocalDateTime start, LocalDateTime end,
 			String order, String keyword, int limit, int offset) {
 		return queryFactory
@@ -52,7 +36,7 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 				.leftJoin(ingredient).on(recipe.eq(ingredient.recipe))
 				.leftJoin(recipeTheme).on(recipe.eq(recipeTheme.recipe))
 				.leftJoin(theme).on(theme.eq(recipeTheme.theme))
-				.where( 
+				.where(
 						eqStep(step), 
 						eqTime(time), 
 						goeStartRecipe(start),
@@ -102,20 +86,6 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 			return null;
 		}
 		return recipe.createdDate.loe(end);
-	}
-
-	private BooleanExpression goeStartLabel(LocalDateTime start) {
-		if (start == null) {
-			return null;
-		}
-		return label.createdDate.goe(start);
-	}
-
-	private BooleanExpression loeEndLabel(LocalDateTime end) {
-		if (end == null) {
-			return null;
-		}
-		return label.createdDate.loe(end);
 	}
 
 	private OrderSpecifier<?> ordered(String order) {
