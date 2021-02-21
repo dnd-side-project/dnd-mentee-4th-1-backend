@@ -25,17 +25,21 @@ public class UserFollowController {
 	private final UserRepository userRepository;
 
 	@GetMapping("/user/{userId}/followers")
-	public List<UserDto> followerList(@PathVariable Long userId) {
+	public List<UserDto> followerList(@PathVariable Long userId,
+			@RequestParam(required = false, defaultValue = "10") int limit,
+			@RequestParam(required = false, defaultValue = "0") int offset) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
-		return userFollowService.followerList(user);
+		return userFollowService.followerList(user, limit, offset);
 	}
 
 	@GetMapping("/user/{userId}/followings")
-	public List<UserDto> followingList(@PathVariable Long userId) {
+	public List<UserDto> followingList(@PathVariable Long userId,
+			@RequestParam(required = false, defaultValue = "10") int limit,
+			@RequestParam(required = false, defaultValue = "0") int offset) {
 		User user = userRepository.findById(userId)
 				.orElseThrow(() -> new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
-		return userFollowService.followingList(user);
+		return userFollowService.followingList(user, limit, offset);
 	}
 
 	@PostMapping("user/{followerId}/follow/{followingId}")
