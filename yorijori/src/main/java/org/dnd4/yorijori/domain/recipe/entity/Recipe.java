@@ -35,13 +35,17 @@ public class Recipe extends BaseTimeEntity {
 
 	@NotNull
 	private String title;
-
+	private String description;
 	private int step;
 	private int time;
 
 	@ColumnDefault("0")
 	private int viewCount;
+
+
+
 	private String thumbnail;
+
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="pid")
@@ -98,6 +102,7 @@ public class Recipe extends BaseTimeEntity {
 
 	@Builder
 	public Recipe(String title,
+				  String description,
 				  int step,
 				  int time,
 				  String thumbnail,
@@ -107,6 +112,7 @@ public class Recipe extends BaseTimeEntity {
 				  List<RecipeTheme> recipeThemes)
 	{
 		this.title = title;
+		this.description = description;
 		this.step = step;
 		this.time = time;
 		this.thumbnail = thumbnail;
