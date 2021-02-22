@@ -95,7 +95,9 @@ public class Recipe extends BaseTimeEntity {
 		this.child.add(child);
 		child.setParent(this);
 	}
-
+	public void incViewCount(){
+		this.viewCount++;
+	}
 	@Builder
 	public Recipe(String title,
 				  int step,
