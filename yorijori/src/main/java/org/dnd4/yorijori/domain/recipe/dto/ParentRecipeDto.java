@@ -48,7 +48,7 @@ public class ParentRecipeDto {
 
         User user = recipe.getUser();
 
-        writer = new UserDto(user.getId(),user.getName(), user.getEmail());
+        writer = new UserDto(user.getId(),user.getName(), user.getEmail(), user.getImageUrl());
 
     }
 }

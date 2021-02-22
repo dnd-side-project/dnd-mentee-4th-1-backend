@@ -20,7 +20,7 @@ public class ResponseCommentDto extends BaseTimeEntity {
         this.imageUrl = comment.getImageUrl();
 
         User user = comment.getUser();
-        this.writer = new UserDto(user.getId(), user.getName(), user.getEmail());
+        this.writer = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getImageUrl());
 
         if(comment.getParent() != null) this.pid = comment.getParent().getId();
 
