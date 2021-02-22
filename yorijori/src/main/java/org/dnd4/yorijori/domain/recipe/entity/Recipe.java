@@ -192,4 +192,8 @@ public class Recipe extends BaseTimeEntity {
 
 	}
 
+	public void updateStarCount(double starCount){
+		this.starCount = starCount;
+	}
+
 }
