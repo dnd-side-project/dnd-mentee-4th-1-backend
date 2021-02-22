@@ -28,6 +28,14 @@ public class CommentDslRepository extends QuerydslRepositorySupport {
                 ).offset(offset).limit(limit)
                 .fetch();
     }
+    public List<Comment> findByRecipeId(Long recipeId, int offset, int limit){
+        return queryFactory
+                .selectFrom(comment)
+                .where(
+                        eqRecipeId(recipeId)
+                ).offset(offset).limit(limit)
+                .fetch();
+    }
 
     private BooleanExpression eqParentId(Long pid) {
         if (pid == null) {
@@ -35,5 +43,12 @@ public class CommentDslRepository extends QuerydslRepositorySupport {
         }
 
         return comment.parent.id.eq(pid);
+    }
+
+    private BooleanExpression eqRecipeId(Long recipeId){
+        if (recipeId == null) {
+            return null;
+        }
+        return comment.recipe.id.eq(recipeId);
     }
 }
