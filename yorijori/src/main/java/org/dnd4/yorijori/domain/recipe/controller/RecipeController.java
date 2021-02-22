@@ -37,9 +37,12 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}/comments")
-    public ResultList<ResponseCommentDto> getCommentsByRecipeId (@PathVariable Long id){
+    public ResultList<ResponseCommentDto> getCommentsByRecipeId (
+            @PathVariable Long id,
+            @RequestParam(required = false, defaultValue = "0") int offset,
+            @RequestParam(required = false, defaultValue = "10") int limit){
 
-        List<Comment> comments = commentService.findByRecipeId(id);
+        List<Comment> comments = commentService.findByRecipeId(id,offset,limit);
 
         return new ResultList<ResponseCommentDto>(comments.stream().map(comment -> new ResponseCommentDto(comment)).collect(Collectors.toList()));
 
