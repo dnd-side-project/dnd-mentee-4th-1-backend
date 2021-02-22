@@ -36,6 +36,7 @@ public class UserFollow {
 
 	@Builder
 	public UserFollow(User following, User follower) {
+		this.id = FollowKey.builder().follower(follower).following(following).build();
 		this.following = following;
 		this.follower = follower;
 		this.followingAlarm = YesOrNo.Y;

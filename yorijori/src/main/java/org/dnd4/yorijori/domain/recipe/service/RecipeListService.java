@@ -28,10 +28,4 @@ public class RecipeListService {
 				.map(ResponseDto::new).collect(Collectors.toList());
 	}
 	
-	public List<ResponseDto> labelTop(LocalDateTime start, LocalDateTime end, int limit, int offset){
-		List<ResponseDto> list = recipeDslRepository.labelTop(start, end, limit, offset).stream()
-				.map(ResponseDto::new).collect(Collectors.toList());
-		return list;
-	}
-	
 }

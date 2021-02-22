@@ -10,6 +10,7 @@ import org.dnd4.yorijori.domain.user.repository.UserRepository;
 import org.dnd4.yorijori.domain.user_follow.entity.UserFollow;
 import org.dnd4.yorijori.domain.user_follow.repository.UserFollowDslRepository;
 import org.dnd4.yorijori.domain.user_follow.repository.UserFollowRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +24,16 @@ public class UserFollowService {
 	private final UserFollowDslRepository userFollowDslRepository;
 	private final UserRepository userRepository;
 
-	public List<UserDto> followingList(User user) {
-		List<UserDto> result = userFollowRepository.findFollowingByFollower(user).stream()
+	public List<UserDto> followingList(User user, int limit, int offset) {
+		List<UserDto> result = userFollowDslRepository.findFollowingByFollower(user, limit, offset).stream()
 				.map(UserDto::new).collect(Collectors.toList());
 		return result;
 	}
 	
-	public List<UserDto> followerList(User user) {
-		return userFollowRepository.findFollewerByFollowing(user).stream()
+	public List<UserDto> followerList(User user, int limit, int offset) {
+		List<UserDto> result = userFollowDslRepository.findFollowerByFollowing(user, limit, offset).stream()
 				.map(UserDto::new).collect(Collectors.toList());
+		return result;
 	}
 	
 	@Transactional
