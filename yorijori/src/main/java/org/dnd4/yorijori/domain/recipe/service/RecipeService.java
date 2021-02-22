@@ -190,4 +190,9 @@ public class RecipeService {
 
         return recipe;
     }
+    
+    @Transactional
+    public void incViewCount(Recipe recipe){
+        recipe.incViewCount();
+    }
 }
