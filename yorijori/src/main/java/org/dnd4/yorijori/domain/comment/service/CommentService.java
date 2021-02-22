@@ -28,9 +28,9 @@ public class CommentService {
     private final UserRepository userRepository;
 
     @Transactional
-    public List<Comment> findByRecipeId(Long recipeId){
+    public List<Comment> findByRecipeId(Long recipeId, int offset, int limit){
 
-        return commentRepository.findByRecipeId(recipeId);
+        return commentDslRepository.findByRecipeId(recipeId, offset, limit);
     }
 
     @Transactional
