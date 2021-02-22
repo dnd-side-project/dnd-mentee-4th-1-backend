@@ -10,6 +10,7 @@ import org.dnd4.yorijori.domain.rating.repository.RatingRepository;
 import org.dnd4.yorijori.domain.recipe.dto.RequestDto;
 import org.dnd4.yorijori.domain.recipe.dto.UpdateRequestDto;
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
+import org.dnd4.yorijori.domain.recipe.repository.RecipeDslRepository;
 import org.dnd4.yorijori.domain.recipe.repository.RecipeRepository;
 import org.dnd4.yorijori.domain.recipe_theme.entity.RecipeTheme;
 import org.dnd4.yorijori.domain.recipe_theme.repository.RecipeThemeRepository;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private final RecipeDslRepository recipeDslRepository;
 
     private final IngredientRepository ingredientRepository;
 
@@ -189,5 +191,13 @@ public class RecipeService {
         Recipe recipe = recipeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 아이디의 레시피가 없습니다. id : " + id));
 
         return recipe;
+    }
+
+    @Transactional
+    public void updateStarAverage (Long id){
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 아이디의 레시피가 없습니다. id : " + id));
+        Double starAverage = recipeDslRepository.getAverageStar(id).get(0);
+
+        recipe.updateStarCount(starAverage);
     }
 }
