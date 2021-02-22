@@ -53,7 +53,7 @@ public class ResponseDto {
         viewCount = recipe.getViewCount();
 
         User user = recipe.getUser();
-        writer = new UserDto(user.getId(),user.getName(), user.getEmail());
+        writer = new UserDto(user.getId(),user.getName(), user.getEmail(), user.getImageUrl());
     }
 
 
