@@ -43,7 +43,7 @@ public class Recipe extends BaseTimeEntity {
 	private int viewCount;
 
 	@ColumnDefault("0.0")
-	private double starAvearge;
+	private double starCount;
 
 	private String thumbnail;
 
