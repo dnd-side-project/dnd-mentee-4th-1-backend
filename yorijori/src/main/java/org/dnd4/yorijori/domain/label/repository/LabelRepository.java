@@ -13,4 +13,6 @@ public interface LabelRepository extends JpaRepository<Label, Long> {
 	List<Long> labelCountDesc(@Param("limit") int limit, @Param("startDate") String startDate,
 			@Param("endDate") String endDate);
 
+	Label findByUserIdAndRecipeId(Long user_id, Long recipe_id);
+
 }
