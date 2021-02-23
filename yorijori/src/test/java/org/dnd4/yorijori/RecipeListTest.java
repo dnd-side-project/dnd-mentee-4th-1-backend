@@ -128,7 +128,7 @@ public class RecipeListTest {
 
 
 
-        UpdateRequestDto updateRequestDto = new UpdateRequestDto("updateTitle", "updateThumbnail", mainIngredientDtos, null, themeIds, stepDtos,10,1,null);
+        UpdateRequestDto updateRequestDto = new UpdateRequestDto("updateTitle", "updateThumbnail", mainIngredientDtos, null, themeIds, stepDtos,10,1,1,null);
 
         Long updatedId = recipeService.update(savedId, updateRequestDto);
 

@@ -98,6 +98,9 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 		if (order.equals("latest")) {
 			return recipe.createdDate.desc();
 		}
+		if (order.equals("label")) {
+			return recipe.wishCount.desc();
+		}
 		return recipe.count().desc();
 	}
 
