@@ -54,7 +54,7 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 				.where(
 						eqId(id)
 				)
-				.groupBy(recipe.id).fetch();
+				.groupBy(rating.recipe.id).fetch();
 	}
 
 	private BooleanBuilder containKeyword(String keyword) {
@@ -89,7 +89,7 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 		if (id == null) {
 			return null;
 		}
-		return recipe.id.eq(id);
+		return rating.recipe.id.eq(id);
 	}
 
 	private BooleanExpression goeStartRecipe(LocalDateTime start) {
