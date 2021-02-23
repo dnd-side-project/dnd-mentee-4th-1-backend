@@ -1,6 +1,7 @@
 package org.dnd4.yorijori.domain.label.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.dnd4.yorijori.domain.label.entity.Label;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,6 @@ public interface LabelRepository extends JpaRepository<Label, Long> {
 	List<Long> labelCountDesc(@Param("limit") int limit, @Param("startDate") String startDate,
 			@Param("endDate") String endDate);
 
-	Label findByUserIdAndRecipeId(Long user_id, Long recipe_id);
+	Optional<Label> findByUserIdAndRecipeId(Long user_id, Long recipe_id);
 
 }
