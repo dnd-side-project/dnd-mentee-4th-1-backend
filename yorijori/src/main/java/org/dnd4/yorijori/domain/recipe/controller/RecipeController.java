@@ -38,8 +38,8 @@ public class RecipeController {
 	
     @GetMapping("/{id}")
     public Result<ResponseDto> getById (@PathVariable Long id){
-
         Recipe recipe = recipeService.get(id);
+        recipeService.incViewCount(recipe);
         ResponseDto responseDto = new ResponseDto(recipe);
         monthlyViewService.visit(id);
         return new Result<ResponseDto>(responseDto);

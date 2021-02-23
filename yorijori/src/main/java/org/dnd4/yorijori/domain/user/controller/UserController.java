@@ -25,6 +25,7 @@ public class UserController {
         return new Result<Long>(userRepository.save(User.builder()
         		.name(user.get("name"))
                 .email(user.get("email"))
+                .imageUrl(user.get("imageUrl"))
                 .roles(Collections.singletonList("ROLE_USER"))
                 .build()).getId());
     }

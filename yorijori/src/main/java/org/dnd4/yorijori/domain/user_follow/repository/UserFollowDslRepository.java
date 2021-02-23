@@ -25,14 +25,14 @@ public class UserFollowDslRepository extends QuerydslRepositorySupport {
 		this.queryFactory = queryFactory;
 	}
 
-	public List<Recipe> followingFeed(Long userId, int limit, int offset) {
+	public List<Recipe> followingFeed(User user, int limit, int offset) {
 		List<Recipe> list = queryFactory
 				.selectFrom(recipe)
 				.where(recipe.user.in(
 						JPAExpressions
 						.select(userFollow.following)
 						.from(userFollow)
-						.where(userFollow.follower.id.eq(userId),
+						.where(userFollow.follower.eq(user),
 								userFollow.followingAlarm.eq(YesOrNo.Y))))
 				.orderBy(recipe.createdDate.desc())
 				.limit(limit)
@@ -41,14 +41,14 @@ public class UserFollowDslRepository extends QuerydslRepositorySupport {
 		return list;
 	}
 	
-	public List<Recipe> followerFeed(Long userId, int limit, int offset) {
+	public List<Recipe> followerFeed(User user, int limit, int offset) {
 		List<Recipe> list = queryFactory
 				.selectFrom(recipe)
 				.where(recipe.user.in(
 						JPAExpressions
 						.select(userFollow.follower)
 						.from(userFollow)
-						.where(userFollow.following.id.eq(userId),
+						.where(userFollow.following.eq(user),
 								userFollow.followerAlarm.eq(YesOrNo.Y))))
 				.orderBy(recipe.createdDate.desc())
 				.limit(limit)

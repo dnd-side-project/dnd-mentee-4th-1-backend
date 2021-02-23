@@ -159,6 +159,7 @@ public class RecipeService {
                     updateRequestDto.getSteps().size(),
                     updateRequestDto.getTime(),
                     updateRequestDto.getViewCount(),
+                    updateRequestDto.getWishCount(),
                     updateRequestDto.getThumbnail(),
                     ingredients,
                     recipeThemes,
@@ -174,6 +175,7 @@ public class RecipeService {
                 updateRequestDto.getSteps().size(),
                 updateRequestDto.getTime(),
                 updateRequestDto.getViewCount(),
+                updateRequestDto.getWishCount(),
                 updateRequestDto.getThumbnail(),
                 ingredients,
                 recipeThemes,
@@ -196,11 +198,28 @@ public class RecipeService {
         return recipe;
     }
 
+
     @Transactional
     public void updateStarAverage (Long id){
         Recipe recipe = recipeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 아이디의 레시피가 없습니다. id : " + id));
         Double starAverage = recipeDslRepository.getAverageStar(id).get(0);
 
         recipe.updateStarCount(starAverage);
+    }
+
+    @Transactional
+    public void incViewCount(Recipe recipe){
+        recipe.incViewCount();
+    }
+   
+    @Transactional
+    public void incWishCount(Recipe recipe){
+        recipe.incWishCount();
+    }
+    
+    @Transactional
+    public void decWishCount(Recipe recipe){
+        recipe.decWishCount();
+
     }
 }

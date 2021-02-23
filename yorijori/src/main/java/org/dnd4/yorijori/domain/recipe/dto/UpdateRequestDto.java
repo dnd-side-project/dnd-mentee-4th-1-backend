@@ -19,6 +19,7 @@ public class UpdateRequestDto {
 
     private int time;
     private int viewCount;
+    private int wishCount;
     private Long pid;
 
 }

@@ -54,9 +54,10 @@ public class User implements UserDetails {
     }
     
 	@Builder
-	public User(String name, String email, List<String> roles){
+	public User(String name, String email, String imageUrl, List<String> roles){
 		this.name = name;
 		this.email = email;
+		this.imageUrl = imageUrl;
 		this.roles = roles;
 	}
 
