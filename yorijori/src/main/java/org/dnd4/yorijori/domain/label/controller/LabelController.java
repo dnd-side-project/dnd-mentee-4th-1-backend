@@ -34,6 +34,7 @@ public class LabelController {
 	@PostMapping("/recipes/{id}/label")
 	public Result<Boolean> add(@PathVariable Long id, Principal principal) {
 		Recipe recipe = recipeService.get(id);
+		recipeService.incViewCount(recipe);
 		User user = (User) ((Authentication) principal).getPrincipal();
 		labelService.add(user, recipe);
 		return new Result<Boolean>(true);
