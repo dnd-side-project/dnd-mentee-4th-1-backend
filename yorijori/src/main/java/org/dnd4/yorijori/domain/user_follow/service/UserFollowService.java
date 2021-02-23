@@ -37,58 +37,52 @@ public class UserFollowService {
 	}
 	
 	@Transactional
-    public void follow(Long followingId, Long followerId){
-		User follower = userRepository.findById(followerId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followerId));
+    public void follow(Long followingId, User follower){
 		User following = userRepository.findById(followingId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followingId));
 		UserFollow entity = UserFollow.builder().follower(follower).following(following).build();
 		userFollowRepository.save(entity);
     }
 	
 	@Transactional
-    public void unfollow(Long followingId, Long followerId){
-		User follower = userRepository.findById(followerId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followerId));
+    public void unfollow(Long followingId, User follower){
 		User following = userRepository.findById(followingId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followingId));
 		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
 		userFollowRepository.delete(entity);
     }
 
 	@Transactional
-	public void followingAlarmOn(Long userId, Long followingId) {
-		User follower = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
+	public void followingAlarmOn(User follower, Long followingId) {
 		User following = userRepository.findById(followingId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followingId));
 		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
 		entity.followingAlarmOn();
 	}
 	@Transactional
-	public void followingAlarmOff(Long userId, Long followingId) {
-		User follower = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
+	public void followingAlarmOff(User follower, Long followingId) {
 		User following = userRepository.findById(followingId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followingId));
 		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
 		entity.followingAlarmOff();
 	}
 	@Transactional
-	public void followerAlarmOn(Long userId, Long followerId) {
+	public void followerAlarmOn(User following, Long followerId) {
 		User follower = userRepository.findById(followerId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followerId));
-		User following = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
 		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
 		entity.followerAlarmOn();
 	}
 	@Transactional
-	public void followerAlarmOff(Long userId, Long followerId) {
+	public void followerAlarmOff(User following, Long followerId) {
 		User follower = userRepository.findById(followerId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followerId));
-		User following = userRepository.findById(userId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
 		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
 		entity.followerAlarmOff();
 	}
 	
-	public List<ResponseDto> followerFeed(Long userId, int limit, int offset) {
-		List<ResponseDto> result = userFollowDslRepository.followerFeed(userId, limit, offset).stream()
+	public List<ResponseDto> followerFeed(User user, int limit, int offset) {
+		List<ResponseDto> result = userFollowDslRepository.followerFeed(user, limit, offset).stream()
 				.map(ResponseDto::new).collect(Collectors.toList());
 		return result;
 	}
 
-	public List<ResponseDto> followingFeed(Long userId, int limit, int offset) {
-		List<ResponseDto> result = userFollowDslRepository.followingFeed(userId, limit, offset).stream()
+	public List<ResponseDto> followingFeed(User user, int limit, int offset) {
+		List<ResponseDto> result = userFollowDslRepository.followingFeed(user, limit, offset).stream()
 				.map(ResponseDto::new).collect(Collectors.toList());
 		return result;
 	}
