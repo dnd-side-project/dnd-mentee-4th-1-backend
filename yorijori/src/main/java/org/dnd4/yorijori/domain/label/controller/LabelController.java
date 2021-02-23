@@ -4,8 +4,8 @@ import java.security.Principal;
 
 import org.dnd4.yorijori.domain.common.Result;
 import org.dnd4.yorijori.domain.common.ResultList;
-import org.dnd4.yorijori.domain.label.repository.LabelRepository;
 import org.dnd4.yorijori.domain.label.service.LabelService;
+import org.dnd4.yorijori.domain.monthly_label.service.MonthlyLabelService;
 import org.dnd4.yorijori.domain.recipe.dto.ResponseDto;
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
 import org.dnd4.yorijori.domain.recipe.service.RecipeService;
@@ -28,6 +28,7 @@ public class LabelController {
 
 	private final RecipeService recipeService;
 	private final LabelService labelService;
+	private final MonthlyLabelService monthlyLabelService;
 
 	@PostMapping("/recipes/{id}/label")
 	public Result<Boolean> add(@PathVariable Long id, Principal principal) {
@@ -35,6 +36,7 @@ public class LabelController {
 		User user = (User) ((Authentication) principal).getPrincipal();
 		labelService.add(user, recipe);
 		recipeService.incWishCount(recipe);
+		monthlyLabelService.label(id);
 		return new Result<Boolean>(true);
 	}
 
@@ -44,6 +46,7 @@ public class LabelController {
 		User user = (User) ((Authentication) principal).getPrincipal();		
 		labelService.delete(user, recipe);
 		recipeService.decWishCount(recipe);
+		monthlyLabelService.unlabel(id);
 		return new Result<Boolean>(true);
 	}
 
