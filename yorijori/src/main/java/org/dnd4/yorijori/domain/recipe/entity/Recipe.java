@@ -170,15 +170,11 @@ public class Recipe extends BaseTimeEntity {
 				/ this.getRatings().size();
 	}
 
-	// TODO: 2021-02-07 TODO count를 위해서 객체 다 불러오는건 비효율적이라는 생각이 들어, label 서비스에 count를 주는것을 만들어야 할듯
-	public int getWishCount(){
-		return this.getLabels().size();
-	}
-
 	public void update(String title,
 					   int step,
 					   int time,
 					   int viewCount,
+					   int wishCount,
 					   String thumbnail,
 					   List<Ingredient> ingredients,
 					   List<RecipeTheme> recipeThemes,
@@ -188,6 +184,7 @@ public class Recipe extends BaseTimeEntity {
 		this.step = step;
 		this.time = time;
 		this.viewCount = viewCount;
+		this.wishCount = wishCount;
 		this.thumbnail = thumbnail;
 
 		this.ingredients = new ArrayList<>();
