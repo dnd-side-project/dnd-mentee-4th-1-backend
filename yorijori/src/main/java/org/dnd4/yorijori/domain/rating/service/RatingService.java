@@ -3,7 +3,6 @@ package org.dnd4.yorijori.domain.rating.service;
 import lombok.RequiredArgsConstructor;
 import org.dnd4.yorijori.domain.rating.dto.RequestRatingDto;
 import org.dnd4.yorijori.domain.rating.entity.Rating;
-import org.dnd4.yorijori.domain.rating.repository.RatingDslRepository;
 import org.dnd4.yorijori.domain.rating.repository.RatingRepository;
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
 import org.dnd4.yorijori.domain.recipe.repository.RecipeRepository;
@@ -21,7 +20,7 @@ public class RatingService {
     private final RatingRepository ratingRepository;
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
-    private final RatingDslRepository ratingDslRepository;
+
 
     @Transactional
     public Long add(Long recipeId, Long userId, double star){
@@ -41,8 +40,4 @@ public class RatingService {
         return rating;
     }
 
-    @Transactional
-    public List<Rating> findByRecipeId(Long recipeId,int offset,int limit){
-        return ratingDslRepository.findByRecipeId(recipeId, offset, limit);
-    }
 }
