@@ -71,7 +71,7 @@ public class RecipeListTest {
         
         Long userId = userRepository.save(user).getId();
 
-        RequestDto requestDto = new RequestDto("title",
+        RequestDto requestDto = new RequestDto("title","설명",
                 "http://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg",
                 mainIngredientDtos, null, themeIds, steps, 15, userId, null
                 );
@@ -128,7 +128,7 @@ public class RecipeListTest {
 
 
 
-        UpdateRequestDto updateRequestDto = new UpdateRequestDto("updateTitle", "updateThumbnail", mainIngredientDtos, null, themeIds, stepDtos,10,1,1,null);
+        UpdateRequestDto updateRequestDto = new UpdateRequestDto("updateTitle", "설명","updateThumbnail", mainIngredientDtos, null, themeIds, stepDtos,10,1,1,null);
 
         Long updatedId = recipeService.update(savedId, updateRequestDto);
 
