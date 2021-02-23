@@ -195,9 +195,14 @@ public class RecipeService {
     public void incViewCount(Recipe recipe){
         recipe.incViewCount();
     }
-    
+   
     @Transactional
     public void incWishCount(Recipe recipe){
         recipe.incWishCount();
+    }
+    
+    @Transactional
+    public void decWishCount(Recipe recipe){
+        recipe.decWishCount();
     }
 }

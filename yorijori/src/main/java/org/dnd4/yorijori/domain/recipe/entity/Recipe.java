@@ -114,6 +114,9 @@ public class Recipe extends BaseTimeEntity {
 	public void incWishCount(){
 		this.wishCount++;
 	}
+	public void decWishCount(){
+		this.wishCount--;
+	}
 	@Builder
 	public Recipe(String title,
 				  int step,

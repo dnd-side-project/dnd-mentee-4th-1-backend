@@ -34,7 +34,7 @@ public class LabelController {
 	@PostMapping("/recipes/{id}/label")
 	public Result<Boolean> add(@PathVariable Long id, Principal principal) {
 		Recipe recipe = recipeService.get(id);
-		recipeService.incViewCount(recipe);
+		recipeService.incWishCount(recipe);
 		User user = (User) ((Authentication) principal).getPrincipal();
 		labelService.add(user, recipe);
 		return new Result<Boolean>(true);
@@ -43,6 +43,7 @@ public class LabelController {
 	@DeleteMapping("/recipes/{id}/label")
 	public Result<Boolean> delete(@PathVariable Long id, Principal principal) {
 		Recipe recipe = recipeService.get(id);
+		recipeService.decWishCount(recipe);
 		User user = (User) ((Authentication) principal).getPrincipal();
 		labelService.delete(user, recipe);
 		return new Result<Boolean>(true);
