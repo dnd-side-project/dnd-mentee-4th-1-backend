@@ -51,28 +51,19 @@ public class UserFollowService {
     }
 
 	@Transactional
-	public void followingAlarmOn(User follower, Long followingId) {
+	public void followingAlarm(User follower, Long followingId, Boolean on) {
 		User following = userRepository.findById(followingId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followingId));
 		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
-		entity.followingAlarmOn();
+		if(on) entity.followingAlarmOn();
+		else entity.followingAlarmOff();
 	}
+
 	@Transactional
-	public void followingAlarmOff(User follower, Long followingId) {
-		User following = userRepository.findById(followingId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followingId));
-		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
-		entity.followingAlarmOff();
-	}
-	@Transactional
-	public void followerAlarmOn(User following, Long followerId) {
+	public void followerAlarm(User following, Long followerId, Boolean on) {
 		User follower = userRepository.findById(followerId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followerId));
 		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
-		entity.followerAlarmOn();
-	}
-	@Transactional
-	public void followerAlarmOff(User following, Long followerId) {
-		User follower = userRepository.findById(followerId).orElseThrow(()->new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + followerId));
-		UserFollow entity = userFollowRepository.findByFollowerAndFollowing(follower, following).orElseThrow(()->new IllegalArgumentException("데이터가 없습니다."));
-		entity.followerAlarmOff();
+		if(on) entity.followerAlarmOn();
+		else entity.followerAlarmOff();
 	}
 	
 	public List<ResponseDto> followerFeed(User user, int limit, int offset) {
