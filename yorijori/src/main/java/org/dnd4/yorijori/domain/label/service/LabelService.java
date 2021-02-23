@@ -23,13 +23,14 @@ public class LabelService {
 
 	@Transactional
 	public void add(User user, Recipe recipe) {
+		labelRepository.findByUserIdAndRecipeId(user.getId(), recipe.getId()).ifPresent(s -> {throw new RuntimeException("이미 데이터가 존재합니다.");});
 		Label entity = Label.builder().user(user).recipe(recipe).build();
 		labelRepository.save(entity);
 	}
 
 	@Transactional
 	public void delete(User user, Recipe recipe) {
-		Label entity = labelRepository.findByUserIdAndRecipeId(user.getId(), recipe.getId());
+		Label entity = labelRepository.findByUserIdAndRecipeId(user.getId(), recipe.getId()).orElseThrow(() -> new IllegalArgumentException("해당 레시피를 찜한 데이터가 없습니다."));;
 		labelRepository.delete(entity);
 	}
 
