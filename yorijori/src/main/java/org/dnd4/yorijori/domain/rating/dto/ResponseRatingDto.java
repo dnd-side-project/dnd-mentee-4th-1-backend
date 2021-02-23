@@ -17,7 +17,7 @@ public class ResponseRatingDto {
         this.id = rating.getId();
 
         User user = rating.getUser();
-        this.writer = new UserDto(user.getId(), user.getName(), user.getEmail());
+        this.writer = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getImageUrl());
         this.star = rating.getStar();
     }
 }
