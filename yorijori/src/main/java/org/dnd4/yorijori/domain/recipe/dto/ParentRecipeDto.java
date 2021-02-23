@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class ParentRecipeDto {
     private Long id;
     private String title;
+    private String description;
     private String thumbnail;
 
     private List<IngredientDto> mainIngredients;
@@ -27,6 +28,7 @@ public class ParentRecipeDto {
     public ParentRecipeDto(Recipe recipe){
         id = recipe.getId();
         title = recipe.getTitle();
+        description = recipe.getDescription();
         thumbnail = recipe.getThumbnail();
 
         mainIngredients = recipe.getMainIngredients().stream()

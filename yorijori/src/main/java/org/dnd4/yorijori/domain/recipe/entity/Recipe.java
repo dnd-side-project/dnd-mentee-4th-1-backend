@@ -166,6 +166,7 @@ public class Recipe extends BaseTimeEntity {
 	}
 
 	public void update(String title,
+					   String description,
 					   int step,
 					   int time,
 					   int viewCount,
@@ -175,6 +176,7 @@ public class Recipe extends BaseTimeEntity {
 					   Recipe parent
 	){
 		this.title = title;
+		this.description = description;
 		this.step = step;
 		this.time = time;
 		this.viewCount = viewCount;

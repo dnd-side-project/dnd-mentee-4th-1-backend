@@ -91,6 +91,7 @@ public class RecipeService {
 
         Recipe recipe = Recipe.builder()
                 .title(requestDto.getTitle())
+                .description(requestDto.getDescription())
                 .step(requestDto.getSteps().size())
                 .time(requestDto.getTime())
                 .thumbnail(requestDto.getThumbnail())
@@ -154,6 +155,7 @@ public class RecipeService {
 
         if(updateRequestDto.getPid() == null){
             recipe.update(updateRequestDto.getTitle(),
+                    updateRequestDto.getDescription(),
                     updateRequestDto.getSteps().size(),
                     updateRequestDto.getTime(),
                     updateRequestDto.getViewCount(),
@@ -168,6 +170,7 @@ public class RecipeService {
         Recipe parentRecipe = recipeRepository.findById(updateRequestDto.getPid()).orElseThrow(()->new IllegalArgumentException("해당 아이디의 레시피가 없습니다. id : " + updateRequestDto.getPid()));
 
         recipe.update(updateRequestDto.getTitle(),
+                updateRequestDto.getDescription(),
                 updateRequestDto.getSteps().size(),
                 updateRequestDto.getTime(),
                 updateRequestDto.getViewCount(),

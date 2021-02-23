@@ -14,6 +14,7 @@ import java.util.List;
 public class UpdateResponseDto {
     private Long id;
     private String title;
+    private String description;
     private String thumbnail;
 
     private List<Ingredient> mainIngredients;
@@ -30,6 +31,7 @@ public class UpdateResponseDto {
     public UpdateResponseDto(Recipe recipe){
         id = recipe.getId();
         title = recipe.getTitle();
+        description = recipe.getDescription();
         thumbnail = recipe.getThumbnail();
         mainIngredients = recipe.getMainIngredients();
         subIngredients = recipe.getSubIngredients();
