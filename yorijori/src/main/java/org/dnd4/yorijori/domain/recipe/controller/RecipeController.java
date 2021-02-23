@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -59,9 +60,9 @@ public class RecipeController {
 
 
     @PostMapping("/{id}/ratings")
-    public Result<ResponseRatingDto> add (@PathVariable Long id, @RequestBody @Validated RequestRatingDto ratingDto, Principal principal){
+    public Result<ResponseRatingDto> add (@PathVariable Long id, @RequestBody Map<String, Double> rating, Principal principal){
         User user = (User) ((Authentication) principal).getPrincipal();
-        Long ratingId = ratingService.add(id, user.getId(), ratingDto.getStar());
+        Long ratingId = ratingService.add(id, user.getId(), rating.get("star"));
 
         recipeService.updateStarAverage(id);
 
