@@ -1,13 +1,25 @@
 package org.dnd4.yorijori.domain.recipe.entity;
 
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import lombok.Builder;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import org.dnd4.yorijori.domain.comment.entity.Comment;
 import org.dnd4.yorijori.domain.common.BaseTimeEntity;
 import org.dnd4.yorijori.domain.common.YesOrNo;
 import org.dnd4.yorijori.domain.ingredient.entity.Ingredient;
 import org.dnd4.yorijori.domain.label.entity.Label;
+import org.dnd4.yorijori.domain.label.service.LabelService;
 import org.dnd4.yorijori.domain.rating.entity.Rating;
 import org.dnd4.yorijori.domain.recipe_theme.entity.RecipeTheme;
 import org.dnd4.yorijori.domain.step.entity.Step;
@@ -17,12 +29,9 @@ import org.hibernate.annotations.ColumnDefault;
 
 import com.sun.istack.NotNull;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor
@@ -41,6 +50,10 @@ public class Recipe extends BaseTimeEntity {
 
 	@ColumnDefault("0")
 	private int viewCount;
+	
+	@ColumnDefault("0")
+	private int wishCount;
+	
 	private String thumbnail;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -97,6 +110,9 @@ public class Recipe extends BaseTimeEntity {
 	}
 	public void incViewCount(){
 		this.viewCount++;
+	}
+	public void incWishCount(){
+		this.wishCount++;
 	}
 	@Builder
 	public Recipe(String title,
