@@ -44,17 +44,24 @@ public class Recipe extends BaseTimeEntity {
 
 	@NotNull
 	private String title;
-
+	private String description;
 	private int step;
 	private int time;
 
 	@ColumnDefault("0")
 	private int viewCount;
-	
+
+
+	@ColumnDefault("0.0")
+	private double starCount;
+
+
 	@ColumnDefault("0")
 	private int wishCount;
 	
+
 	private String thumbnail;
+
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="pid")
@@ -119,6 +126,7 @@ public class Recipe extends BaseTimeEntity {
 	}
 	@Builder
 	public Recipe(String title,
+				  String description,
 				  int step,
 				  int time,
 				  String thumbnail,
@@ -128,6 +136,7 @@ public class Recipe extends BaseTimeEntity {
 				  List<RecipeTheme> recipeThemes)
 	{
 		this.title = title;
+		this.description = description;
 		this.step = step;
 		this.time = time;
 		this.thumbnail = thumbnail;
@@ -170,7 +179,19 @@ public class Recipe extends BaseTimeEntity {
 				/ this.getRatings().size();
 	}
 
+
+	public void setStarCount (double starCount){
+		this.starCount = starCount;
+	}
+
+	// TODO: 2021-02-07 TODO count를 위해서 객체 다 불러오는건 비효율적이라는 생각이 들어, label 서비스에 count를 주는것을 만들어야 할듯
+	public int getWishCount(){
+		return this.getLabels().size();
+	}
+
+
 	public void update(String title,
+					   String description,
 					   int step,
 					   int time,
 					   int viewCount,
@@ -181,6 +202,7 @@ public class Recipe extends BaseTimeEntity {
 					   Recipe parent
 	){
 		this.title = title;
+		this.description = description;
 		this.step = step;
 		this.time = time;
 		this.viewCount = viewCount;
@@ -197,6 +219,10 @@ public class Recipe extends BaseTimeEntity {
 		}
 		this.parent=parent;
 
+	}
+
+	public void updateStarCount(double starCount){
+		this.starCount = starCount;
 	}
 
 }

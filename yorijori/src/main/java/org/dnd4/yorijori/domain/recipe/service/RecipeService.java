@@ -10,6 +10,7 @@ import org.dnd4.yorijori.domain.rating.repository.RatingRepository;
 import org.dnd4.yorijori.domain.recipe.dto.RequestDto;
 import org.dnd4.yorijori.domain.recipe.dto.UpdateRequestDto;
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
+import org.dnd4.yorijori.domain.recipe.repository.RecipeDslRepository;
 import org.dnd4.yorijori.domain.recipe.repository.RecipeRepository;
 import org.dnd4.yorijori.domain.recipe_theme.entity.RecipeTheme;
 import org.dnd4.yorijori.domain.recipe_theme.repository.RecipeThemeRepository;
@@ -31,6 +32,7 @@ import java.util.stream.Collectors;
 @Service
 public class RecipeService {
     private final RecipeRepository recipeRepository;
+    private final RecipeDslRepository recipeDslRepository;
 
     private final IngredientRepository ingredientRepository;
 
@@ -89,6 +91,7 @@ public class RecipeService {
 
         Recipe recipe = Recipe.builder()
                 .title(requestDto.getTitle())
+                .description(requestDto.getDescription())
                 .step(requestDto.getSteps().size())
                 .time(requestDto.getTime())
                 .thumbnail(requestDto.getThumbnail())
@@ -152,6 +155,7 @@ public class RecipeService {
 
         if(updateRequestDto.getPid() == null){
             recipe.update(updateRequestDto.getTitle(),
+                    updateRequestDto.getDescription(),
                     updateRequestDto.getSteps().size(),
                     updateRequestDto.getTime(),
                     updateRequestDto.getViewCount(),
@@ -167,6 +171,7 @@ public class RecipeService {
         Recipe parentRecipe = recipeRepository.findById(updateRequestDto.getPid()).orElseThrow(()->new IllegalArgumentException("해당 아이디의 레시피가 없습니다. id : " + updateRequestDto.getPid()));
 
         recipe.update(updateRequestDto.getTitle(),
+                updateRequestDto.getDescription(),
                 updateRequestDto.getSteps().size(),
                 updateRequestDto.getTime(),
                 updateRequestDto.getViewCount(),
@@ -192,7 +197,16 @@ public class RecipeService {
 
         return recipe;
     }
-    
+
+
+    @Transactional
+    public void updateStarAverage (Long id){
+        Recipe recipe = recipeRepository.findById(id).orElseThrow(()->new IllegalArgumentException("해당 아이디의 레시피가 없습니다. id : " + id));
+        Double starAverage = recipeDslRepository.getAverageStar(id).get(0);
+
+        recipe.updateStarCount(starAverage);
+    }
+
     @Transactional
     public void incViewCount(Recipe recipe){
         recipe.incViewCount();
@@ -206,5 +220,6 @@ public class RecipeService {
     @Transactional
     public void decWishCount(Recipe recipe){
         recipe.decWishCount();
+
     }
 }

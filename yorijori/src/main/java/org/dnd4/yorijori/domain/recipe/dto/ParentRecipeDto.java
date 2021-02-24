@@ -1,18 +1,16 @@
 package org.dnd4.yorijori.domain.recipe.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.dnd4.yorijori.domain.ingredient.entity.Ingredient;
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
-import org.dnd4.yorijori.domain.step.entity.Step;
-import org.dnd4.yorijori.domain.theme.entity.Theme;
 import org.dnd4.yorijori.domain.user.entity.User;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class ResponseDto {
+@AllArgsConstructor
+public class ParentRecipeDto {
     private Long id;
     private String title;
     private String description;
@@ -24,16 +22,10 @@ public class ResponseDto {
     private List<StepDto> steps;
 
     private int time;
-    private double starCount;
-    private int wishCount;
-    private int viewCount;
+
     private UserDto writer;
-    private ParentRecipeDto parentRecipe;
 
-    private LocalDateTime createDate;
-    private LocalDateTime modifiedDate;
-
-    public ResponseDto(Recipe recipe){
+    public ParentRecipeDto(Recipe recipe){
         id = recipe.getId();
         title = recipe.getTitle();
         description = recipe.getDescription();
@@ -55,17 +47,10 @@ public class ResponseDto {
                 .collect(Collectors.toList());
 
         time = recipe.getTime();
-        starCount= recipe.getStarCount();
-        wishCount = recipe.getWishCount();
-        viewCount = recipe.getViewCount();
 
         User user = recipe.getUser();
+
         writer = new UserDto(user.getId(),user.getName(), user.getEmail(), user.getImageUrl());
-        parentRecipe = new ParentRecipeDto(recipe);
 
-        createDate = recipe.getCreatedDate();
-        modifiedDate = recipe.getModifiedDate();
     }
-
-
 }

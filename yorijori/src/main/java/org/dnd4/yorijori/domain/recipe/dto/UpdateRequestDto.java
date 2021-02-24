@@ -10,6 +10,7 @@ import java.util.List;
 public class UpdateRequestDto {
     private String title;
     private String thumbnail;
+    private String description;
 
     private List<IngredientDto> mainIngredients;
     private List<IngredientDto> subIngredients;
