@@ -5,6 +5,7 @@ import static org.dnd4.yorijori.domain.recipe.entity.QRecipe.recipe;
 import static org.dnd4.yorijori.domain.ingredient.entity.QIngredient.ingredient;
 import static org.dnd4.yorijori.domain.recipe_theme.entity.QRecipeTheme.recipeTheme;
 import static org.dnd4.yorijori.domain.theme.entity.QTheme.theme;
+import static org.dnd4.yorijori.domain.rating.entity.QRating.rating;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,6 +47,16 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 				.orderBy(ordered(order)).limit(limit).offset(offset).fetch();
 	}
 
+	public List<Double> getAverageStar(Long id){
+		return queryFactory
+				.select(rating.star.avg().as("starAverage"))
+				.from(rating)
+				.where(
+						eqId(id)
+				)
+				.groupBy(rating.recipe.id).fetch();
+	}
+
 	private BooleanBuilder containKeyword(String keyword) {
 		if (keyword == null) {
 			return null;
@@ -72,6 +83,13 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 			return null;
 		}
 		return recipe.time.eq(Integer.parseInt(time));
+	}
+
+	private BooleanExpression eqId(Long id) {
+		if (id == null) {
+			return null;
+		}
+		return rating.recipe.id.eq(id);
 	}
 
 	private BooleanExpression goeStartRecipe(LocalDateTime start) {

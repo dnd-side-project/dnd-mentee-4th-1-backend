@@ -9,6 +9,7 @@ import lombok.Getter;
 public class RecipeListDto {
 	private Long id;
 	private String title;
+	private String description;
 	private int step;
 	private int time;
 	private int viewCount;
@@ -18,6 +19,7 @@ public class RecipeListDto {
 	public RecipeListDto(Recipe recipe) {
 		this.id = recipe.getId();
 		this.title = recipe.getTitle();
+		this.description = recipe.getDescription();
 		this.step = recipe.getStep();
 		this.time = recipe.getTime();
 		this.viewCount = recipe.getViewCount();

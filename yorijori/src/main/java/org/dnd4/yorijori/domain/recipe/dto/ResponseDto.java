@@ -7,6 +7,7 @@ import org.dnd4.yorijori.domain.step.entity.Step;
 import org.dnd4.yorijori.domain.theme.entity.Theme;
 import org.dnd4.yorijori.domain.user.entity.User;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 public class ResponseDto {
     private Long id;
     private String title;
+    private String description;
     private String thumbnail;
 
     private List<IngredientDto> mainIngredients;
@@ -28,9 +30,13 @@ public class ResponseDto {
     private UserDto writer;
     private ParentRecipeDto parentRecipe;
 
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
+
     public ResponseDto(Recipe recipe){
         id = recipe.getId();
         title = recipe.getTitle();
+        description = recipe.getDescription();
         thumbnail = recipe.getThumbnail();
 
         mainIngredients = recipe.getMainIngredients().stream()
@@ -49,13 +55,16 @@ public class ResponseDto {
                 .collect(Collectors.toList());
 
         time = recipe.getTime();
-        starCount= recipe.getAverageStarCount();
+        starCount= recipe.getStarCount();
         wishCount = recipe.getWishCount();
         viewCount = recipe.getViewCount();
 
         User user = recipe.getUser();
         writer = new UserDto(user.getId(),user.getName(), user.getEmail(), user.getImageUrl());
         parentRecipe = new ParentRecipeDto(recipe);
+
+        createDate = recipe.getCreatedDate();
+        modifiedDate = recipe.getModifiedDate();
     }
 
 
