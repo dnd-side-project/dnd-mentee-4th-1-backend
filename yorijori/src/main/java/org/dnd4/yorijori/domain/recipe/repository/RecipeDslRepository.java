@@ -1,8 +1,7 @@
 package org.dnd4.yorijori.domain.recipe.repository;
 
-import static org.dnd4.yorijori.domain.label.entity.QLabel.label;
-import static org.dnd4.yorijori.domain.recipe.entity.QRecipe.recipe;
 import static org.dnd4.yorijori.domain.ingredient.entity.QIngredient.ingredient;
+import static org.dnd4.yorijori.domain.recipe.entity.QRecipe.recipe;
 import static org.dnd4.yorijori.domain.recipe_theme.entity.QRecipeTheme.recipeTheme;
 import static org.dnd4.yorijori.domain.theme.entity.QTheme.theme;
 import static org.dnd4.yorijori.domain.rating.entity.QRating.rating;
@@ -11,13 +10,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.dnd4.yorijori.domain.recipe.entity.Recipe;
+import org.dnd4.yorijori.domain.user.entity.User;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 @Repository
@@ -29,8 +28,14 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 		super(Recipe.class);
 		this.queryFactory = queryFactory;
 	}
-
-	public List<Recipe> findAll(String step, String time, LocalDateTime start, LocalDateTime end,
+	public List<Recipe> getUserRecipes(User user, int limit, int offset){
+		return queryFactory
+				.selectFrom(recipe)
+				.where(recipe.user.eq(user))
+				.orderBy(recipe.createdDate.desc())
+				.limit(limit).offset(offset).fetch();
+	}
+	public List<Recipe> findAll(String stepStart, String stepEnd, String time, LocalDateTime start, LocalDateTime end,
 			String order, String keyword, int limit, int offset) {
 		return queryFactory
 				.selectFrom(recipe)
@@ -38,7 +43,7 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 				.leftJoin(recipeTheme).on(recipe.eq(recipeTheme.recipe))
 				.leftJoin(theme).on(theme.eq(recipeTheme.theme))
 				.where(
-						eqStep(step), 
+						btStep(stepStart, stepEnd), 
 						eqTime(time), 
 						goeStartRecipe(start),
 						loeEndRecipe(end), 
@@ -71,11 +76,17 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 		return builder;
 	}
 
-	private BooleanExpression eqStep(String step) {
-		if (step == null) {
+	private BooleanExpression btStep(String stepStart, String stepEnd) {
+		if (stepStart == null && stepEnd == null) {
 			return null;
 		}
-		return recipe.step.eq(Integer.parseInt(step));
+		if (stepStart == null) {
+			return recipe.step.loe(Integer.parseInt(stepEnd));
+		}
+		if (stepEnd == null) {
+			return recipe.step.goe(Integer.parseInt(stepStart));
+		}
+		return recipe.step.between(Integer.parseInt(stepStart), Integer.parseInt(stepEnd));
 	}
 
 	private BooleanExpression eqTime(String time) {

@@ -51,4 +51,12 @@ public class UserController {
 
         return new Result<String>(userService.makeJwtByEmail(user.get("email")));
     }
+    
+    @PutMapping("/user/image")
+    public Result<Boolean> imageUpdate(@RequestBody Map<String, String> imageUrl, Principal principal) {
+    	User user = (User) ((Authentication) principal).getPrincipal();
+		userService.imageUpdate(user, imageUrl.get("imageUrl"));
+		return new Result<Boolean>(true);
+    }
+    
 }

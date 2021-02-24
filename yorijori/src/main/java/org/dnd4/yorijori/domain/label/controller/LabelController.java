@@ -50,15 +50,11 @@ public class LabelController {
 		return new Result<Boolean>(true);
 	}
 
-	private final UserRepository userRepository;
-
-	@GetMapping("/user/{userId}/label")
-	@PreAuthorize("#userId==principal.id")
-	public ResultList<ResponseDto> labelList(@PathVariable Long userId,
+	@GetMapping("/label")
+	public ResultList<ResponseDto> labelList(Principal principal,
 			@RequestParam(required = false, defaultValue = "10") int limit,
 			@RequestParam(required = false, defaultValue = "0") int offset) {
-		User user = userRepository.findById(userId)
-				.orElseThrow(() -> new IllegalArgumentException("해당 아이디의 유저가 없습니다. id : " + userId));
+		User user = (User) ((Authentication) principal).getPrincipal();		
 		return new ResultList<ResponseDto>(labelService.labelList(user, limit, offset));
 	}
 

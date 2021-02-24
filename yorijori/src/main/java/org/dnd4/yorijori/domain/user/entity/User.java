@@ -60,6 +60,11 @@ public class User implements UserDetails {
 		this.imageUrl = imageUrl;
 		this.roles = roles;
 	}
+	
+	
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 
 	@Override
 	public String getUsername() {
