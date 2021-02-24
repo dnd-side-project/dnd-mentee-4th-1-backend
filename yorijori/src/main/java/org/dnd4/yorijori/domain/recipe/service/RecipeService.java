@@ -68,7 +68,7 @@ public class RecipeService {
 
 
         if(requestDto.getSubIngredients() != null){
-            List<Ingredient> subIngredients = requestDto.getMainIngredients().stream()
+            List<Ingredient> subIngredients = requestDto.getSubIngredients().stream()
                     .map((i)->Ingredient.builder()
                             .name(i.getName())
                             .isSub(YesOrNo.Y)
