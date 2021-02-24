@@ -66,7 +66,7 @@ public class UserFollowController {
 	}
 	
 	@PutMapping("/follower/{followerId}/alarm")
-	public Result<Boolean> followerAlarmOn(Principal principal, @PathVariable Long followerId, @RequestBody BooleanDto booleanDto) {
+	public Result<Boolean> followerAlarm(Principal principal, @PathVariable Long followerId, @RequestBody BooleanDto booleanDto) {
 		User user = (User) ((Authentication) principal).getPrincipal();
 		userFollowService.followerAlarm(user, followerId, booleanDto.getIsOn());
 		return new Result<Boolean>(true);
