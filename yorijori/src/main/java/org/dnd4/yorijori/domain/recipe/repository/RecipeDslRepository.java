@@ -28,28 +28,19 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 		super(Recipe.class);
 		this.queryFactory = queryFactory;
 	}
-	public List<Recipe> getUserRecipes(User user, int limit, int offset){
-		return queryFactory
-				.selectFrom(recipe)
-				.where(recipe.user.eq(user))
-				.orderBy(recipe.createdDate.desc())
+
+	public List<Recipe> getUserRecipes(User user, int limit, int offset) {
+		return queryFactory.selectFrom(recipe).where(recipe.user.eq(user)).orderBy(recipe.createdDate.desc())
 				.limit(limit).offset(offset).fetch();
 	}
+
 	public List<Recipe> findAll(String stepStart, String stepEnd, String time, LocalDateTime start, LocalDateTime end,
 			String order, String keyword, int limit, int offset) {
-		return queryFactory
-				.selectFrom(recipe)
-				.leftJoin(ingredient).on(recipe.eq(ingredient.recipe))
-				.leftJoin(recipeTheme).on(recipe.eq(recipeTheme.recipe))
-				.leftJoin(theme).on(theme.eq(recipeTheme.theme))
-				.where(
-						btStep(stepStart, stepEnd), 
-						eqTime(time), 
-						goeStartRecipe(start),
-						loeEndRecipe(end), 
+		return queryFactory.selectFrom(recipe).leftJoin(ingredient).on(recipe.eq(ingredient.recipe))
+				.leftJoin(recipeTheme).on(recipe.eq(recipeTheme.recipe)).leftJoin(theme).on(theme.eq(recipeTheme.theme))
+				.where(btStep(stepStart, stepEnd), eqTime(time), goeStartRecipe(start), loeEndRecipe(end),
 						containKeyword(keyword))
-				.groupBy(recipe)
-				.orderBy(ordered(order)).limit(limit).offset(offset).fetch();
+				.groupBy(recipe).orderBy(ordered(order)).limit(limit).offset(offset).fetch();
 	}
 
 	public List<Double> getAverageStar(Long id){
@@ -93,7 +84,10 @@ public class RecipeDslRepository extends QuerydslRepositorySupport {
 		if (time == null) {
 			return null;
 		}
-		return recipe.time.eq(Integer.parseInt(time));
+		// 60 이상의 수는 예외로 이상 조건 적용, 그 외에는 이하 조건 적용 
+		if (Integer.parseInt(time) >= 60)
+			return recipe.time.goe(Integer.parseInt(time));
+		return recipe.time.loe(Integer.parseInt(time));
 	}
 
 	private BooleanExpression eqId(Long id) {
