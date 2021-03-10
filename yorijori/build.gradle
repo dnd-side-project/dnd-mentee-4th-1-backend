@@ -1,3 +1,17 @@
+buildscript {
+    ext {
+        querydslPluginVersion ='1.0.10'
+    }
+    repositories {
+        maven { 
+        	url"https://plugins.gradle.org/m2/" 
+        }
+    }
+    dependencies {
+        classpath("gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVersion}")// querydsl 플러그인 의존성 등록
+    }
+}
+
 plugins {
 	id 'org.springframework.boot' version '2.4.1'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
@@ -17,11 +31,14 @@ configurations {
 repositories {
 	mavenCentral()
 }
-
+bootJar {
+	version ="0.0.1-SNAPSHOT"
+}
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'mysql:mysql-connector-java'
@@ -29,8 +46,28 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'javax.servlet:jstl'
+	compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2' 
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+	implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+	testImplementation(group: 'junit', name: 'junit', version: '4.13')
+    testRuntimeOnly 'com.h2database:h2'
+    testCompile("org.assertj:assertj-core:3.11.1")
+    compile("com.querydsl:querydsl-jpa")
+    compile("com.querydsl:querydsl-apt")
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-aws', version: '2.2.1.RELEASE', ext: 'pom'
 }
 
-test {
-	useJUnitPlatform()
+apply plugin:"com.ewerk.gradle.plugins.querydsl" // Plugin 적용
+def querydslDir = "src/main/generated" // QClass 생성 위치
+ 
+querydsl {
+    library ="com.querydsl:querydsl-apt"
+    jpa =true
+    querydslSourcesDir = querydslDir
+}
+ 
+sourceSets {
+    main.java.srcDir querydslDir
 }
